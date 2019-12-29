@@ -27,14 +27,15 @@ class LoadStagingTable:
         #locals()["myfunction"]()
         
         df = df.withColumn('data_date', lit(self.partition))
-        output_dir = self.output_location+self.output_dir+'/'
+        output_dir = self.output_location+self.output_table+'/'
         df.write.mode('overwrite').partitionBy('data_date').parquet(output_dir)
         
-        #"""
-        print(df.dtypes)
-        df.show(2, False)
-        df.select(input_file_name()).limit(1).show(1, False)
-        #"""
+        if(False):
+            print(df.dtypes)
+            df.show(2, False)
+            df.select(input_file_name()).limit(1).show(1, False)
+        
+        log_print("Staging Table loaded - '{}', at location - '{}'.".format(self.output_table, output_dir))
         return output_dir
 
     def name_basics(df):
