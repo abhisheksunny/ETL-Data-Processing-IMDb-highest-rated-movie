@@ -57,13 +57,14 @@ class ReportingTableCreation:
         .withColumn("rating_AHRM", df.movie_rating[df.ahrm_index])\
         .selectExpr('primary_name as name', 'total_movies', 'name_HRM', 'rating_HRM', 
                     'votes_HRM', 'calculated_metric_HRM', 'name_AHRM', 
-                    'rating_AHRM', 'is_same', 'profession', 'genres')\
-        .withColumn('data_date', lit(partition))
-        
+                    'rating_AHRM', 'is_same', 'profession', 'genres')
         df.show(5)
-        output_dir=reporting_dir+table_name+'/' 
-        df.write.mode('overwrite').partitionBy('data_date', 'profession').parquet(output_dir)
         
+        output_dir=reporting_dir+table_name+'/' 
+        df.withColumn('data_date', lit(partition))\
+        .write.mode('overwrite').partitionBy('data_date', 'profession').parquet(output_dir)
+        
+        return output_dir
         
         
 if __name__ == "__main__":

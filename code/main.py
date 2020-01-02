@@ -1,6 +1,6 @@
 import sys
+import os
 
-import pandas as pd
 import time
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
@@ -9,6 +9,7 @@ from load_staging_table import LoadStagingTable
 from dimension_table_creation import DimensionTableCreation
 from fact_table_creation import FactTableCreation
 from reporting_table_creation import ReportingTableCreation
+from data_quality import DataQualityCheck
 from args import Args
 from custom_logger import log_print
 
@@ -19,7 +20,7 @@ def create_spark_session():
         .config("spark.jars.packages", "org.apache.hadoop:hadoop-aws:2.7.0") \
         .config("spark.ui.port", "3000") \
         .getOrCreate()
-    return spark
+    return spark    
 
 def main():
     args=Args(sys.argv)
@@ -27,6 +28,10 @@ def main():
     
     time_note = time.asctime(time.localtime())
     log_print('Start Time: '+time_note)
+    
+    if(args.runmode=='S3'):
+        os.system('sh source_data_copy.sh {} {} {}'.format(args.source_dir,args.source_dir_archived,args.partition))
+        log_print('Source Data Loaded at : '+time.asctime(time.localtime()))
     
     name_basics = LoadStagingTable(spark, args.source_dir, 'name.basics.tsv.gz', 
                                    args.partition, args.staging_dir, 'name_basics').execute()
@@ -61,7 +66,19 @@ def main():
     time_note = time.asctime(time.localtime())
     log_print('Loading completion Time of Reporting Tables: '+time_note)
     
+    #Data Quality Checks
+    staging_tables = [name_basics, title_basics, title_crew, title_ratings]
+    dimension_tables = [crew_partitioned, titles_processed, ratings_processed, genres]
+    fact_tables = [movie_rating_fact]
+    reporting_tables = [highest_rated_movie_report]
+    all_tables = [staging_tables, dimension_tables, fact_tables, reporting_tables]
     
+    log_print("Starting Data Quality Checks -- ")
+    DataQualityCheck.generic_checks(spark, all_tables, args.partition_dir)
+    DataQualityCheck.check_reporting_tables(spark, reporting_tables, args.partition_dir, args.data_quality_dir)
+    log_print('Completion Time of Data Quality Checks: ' + time.asctime(time.localtime()))
+    
+    print(" ** ENDS ** ")
     
 if __name__ == "__main__":
     main()
