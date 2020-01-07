@@ -78,20 +78,22 @@ The dataset files can be accessed and downloaded from https://datasets.imdbws.co
 Each dataset is contained in a gzipped, tab-separated-values (TSV) formatted file in the UTF-8 character set. The first line in each file contains headers that describe what is in each column. A ‘\N’ is used to denote that a particular field is missing or null for that title/name.   
 
 Below are the file name and structures with counts as on <i>December 2019</i>.
-* <b>title.basics.tsv.gz</b> (Counts- 6,316,473)
-|Column|Data Format|Description
-|---|---|---
+* <b>title.basics.tsv.gz</b> (Counts- 6,316,473)  
+
+|Column|Data Format|Description  
+|---|---|---   
 |tconst | string | alphanumeric unique identifier of the title     
 |titleType | string | the type/format of the title (e.g. movie, short, tvseries, tvepisode, video, etc)   
 |primaryTitle | string | the more popular title / the title used by the filmmakers   
 |originalTitle | string | original title, in the original language   
 |isAdult | boolean | 0: non-adult title; 1: adult title   
-|startYear | YYYY | represents the release year of a title. In the case of TV Series, it is the series start year
+|startYear | YYYY | represents the release year of a title. In the case of TV Series, it is the series start year  
 |endYear | YYYY | TV Series end year. ‘\N’ for all other title types   
-|runtimeMinutes |numeric| primary runtime of the title, in minutes   
-|genres | string array | includes up to three genres associated with the title   
-
+|runtimeMinutes |numeric| primary runtime of the title, in minutes    
+|genres | string array | includes up to three genres associated with the title    
+   
 * <b>title.crew.tsv.gz</b> (Counts- 6,316,473)
+
 |Column|Data Format|Description
 |---|---|---
 |tconst | string | alphanumeric unique identifier of the title
@@ -99,6 +101,7 @@ Below are the file name and structures with counts as on <i>December 2019</i>.
 |writers | array of nconsts | writer(s) of the given title
 
 * <b>title.ratings.tsv.gz</b> (Counts- 992,341)
+
 |Column|Data Format|Description
 |---|---|---
 |tconst | string | alphanumeric unique identifier of the title
@@ -106,6 +109,7 @@ Below are the file name and structures with counts as on <i>December 2019</i>.
 |numVotes | numeric | number of votes the title has received
 
 * <b>name.basics.tsv.gz</b> (Counts- 9,702,445)
+
 |Column|Data Format|Description
 |---|---|---
 |nconst | string | alphanumeric unique identifier of the name/person
