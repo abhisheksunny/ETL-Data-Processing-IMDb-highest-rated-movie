@@ -52,10 +52,11 @@ class DataQualityCheck:
         else: 
             log_print(" DQC : Data in {} table looks good.".format(table_name))
             
-        log_print(" DQC : Sample data of {} table.")
+        log_print(" DQC : Sample data of {} table.".format(table_name))
         df.show(10)
         df.write.mode('overwrite').parquet(dqc_output_dir)
         
         
 if __name__ == "__main__":
     log_print("Could not run "+sys.argv[0]+" script. Try running main.py.")
+    

@@ -23,8 +23,10 @@ class LoadStagingTable:
         .option('header', 'true')\
         .csv(self.input_location+self.input_filename)
         
+        #Use output_table aka Table Name as function name for calling them
         df = getattr(LoadStagingTable, self.output_table)(df)
-        #locals()["myfunction"]()
+        
+        #locals()["myfunction"]() # --> Another way
         
         df = df.withColumn('data_date', lit(self.partition))
         output_dir = self.output_location+self.output_table+'/'
