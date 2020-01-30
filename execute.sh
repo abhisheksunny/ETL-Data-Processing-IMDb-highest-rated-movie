@@ -27,10 +27,3 @@ region=$(getProperty "REGION")
 
 aws emr create-cluster --name "$cluster_name" --release-label emr-5.28.0 --applications Name=Spark --use-default-roles --ec2-attributes KeyName=spark-emr --instance-type m5.xlarge --instance-count 2 --log-uri s3://udacity-dend-capstone-logs/ --auto-terminate --steps Type=CUSTOM_JAR,Name=CustomJAR,ActionOnFailure=TERMINATE_CLUSTER,Jar=s3://$region.elasticmapreduce/libs/script-runner/script-runner.jar,Args=["s3://udacity-dend-capstone-code-ab/aws_script.sh"]
 
-
-#aws emr create-cluster --name "$cluster_name" --release-label emr-5.28.0 --applications Name=Spark --use-default-roles --ec2-attributes KeyName=spark-emr --instance-type m5.xlarge --instance-count 2 --log-uri s3://udacity-dend-capstone-logs/ --steps Type=CUSTOM_JAR,Name=CustomJAR,ActionOnFailure=CANCEL_AND_WAIT,Jar=s3://$region.elasticmapreduce/libs/script-runner/script-runner.jar,Args=["s3://udacity-dend-capstone-code-ab/aws_script.sh"]
-
-
-## log dir in EMR - /mnt/var/log/hadoop/steps/
-
-
