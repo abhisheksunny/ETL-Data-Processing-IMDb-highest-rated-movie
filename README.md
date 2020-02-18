@@ -173,7 +173,7 @@ As of now there is no out of the box solution but the project is modular and int
 Having multiple nodes within the EMR cluster increases concurrency. EMR also provides access via SSH and native support for jupyter notebooks.
 
 * <b>Additional reporting tables</b>   
-Current ETL pipeline filter all non-movie data. An extension of current ETL would be to include the remaining titleType like TV Series with this as a separate partition.     
+Current ETL pipeline filters all non-movie data. An extension of current ETL would be, to include the remaining titleType like TV Series with this as a separate partition.     
 Just like the existing Fact table, code for `tv_fact_table` could be added which would report, highest rated episode and highest rated season for TV titles.
 
 ***
